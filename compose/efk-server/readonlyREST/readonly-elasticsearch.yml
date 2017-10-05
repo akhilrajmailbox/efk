@@ -1,0 +1,21 @@
+readonlyrest:
+    enable: true
+    response_if_req_forbidden: <h1>Forbidden</h1>
+    access_control_rules:
+
+    - name: Kibana Server (we trust this server side component, full access granted via HTTP authentication, this is the user for elasticsearch and kibana server conne$
+      auth_key: admin:password
+      type: allow
+
+    - name: fluentd Client (this user can write and create its own indices, this is the user for elasticsearch and fluentd connection)
+      auth_key: admin:password
+      type: allow
+      actions: ["indices:data/read/*","indices:data/write/*","indices:admin/template/*","indices:admin/create"]
+      indices: ["*"]
+
+#    - name: Developer (reads only logstash indices, but can create new charts/dashboards)
+#      auth_key: dev:dev
+#      type: allow
+#      kibana_access: ro+
+#      indices: ["remote-nohup-*"]
+

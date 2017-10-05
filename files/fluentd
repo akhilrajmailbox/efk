@@ -1,0 +1,65 @@
+install td-agent
+curl -L https://toolbelt.treasuredata.com/sh/install-ubuntu-trusty-td-agent2.sh | sh
+##install plgin
+sudo /opt/td-agent/embedded/bin/fluent-gem install fluent-plugin-elasticsearch
+
+##check conf file is correct or not 
+td-agent -c td-agent.conf
+[3:23:59 PM] pramod.bizruntime: /etc/td-agetn/td-agent.conf
+[3:24:18 PM] pramod.bizruntime: # syslog
+<source>
+  type tail
+  format /^\[[^ ]* (?<time>[^\]]*)\] \[(?<level>[^\]]*)\] (?<message>.*)$/
+  time_format %b %d %H:%M:%S %Y
+  path /var/log/syslog
+  tag error
+</source>
+
+# Listen to Syslog
+<source>
+  type syslog
+  port 5140/var/lib/docker/con
+bind  0.0.0.0
+tag system
+</source>
+
+<match *.**>
+
+   @type elasticsearch
+    host 172.16.100.24
+    port 9200
+    include_tag_key true
+    tag_key @log_name
+ user admin
+password admin
+    index_name web-01
+    type_name web-01
+     logstash_prefix web-01
+   logstash_format true
+    flush_interval 10s
+</match>
+[3:26:17 PM] pramod.bizruntime: <match sys>
+
+   @type elasticsearch
+    host 127.0.0.1
+    port 9200
+    include_tag_key true
+    tag_key @log_name
+ user admin
+password admin
+    index_name machine-syslog
+    type_name machine-syslog
+
+     logstash_prefix machine-syslog
+
+   logstash_format true
+    flush_interval 10s
+</match>
+
+
+
+ pos_file /var/log/td-agent/access.log.pos
+give permsiion 777 to that
+
+
+… https://github.com/GoogleCloudPlatform/fluentd-catch-all-config/blob/master/configs/config.d/syslog.conf

@@ -1,0 +1,70 @@
+    input {
+     lumberjack   {
+        port => 5043
+        type => "syslog"
+        path => [ "/var/log/syslog","/var/log/auth.log" ]
+#        start_position => "beginning"
+        ssl_certificate => "/etc/pki/tls/certs/logstash-forwarder.crt"
+        ssl_key => "/etc/pki/tls/private/logstash-forwarder.key"
+      }
+   
+  lumberjack {
+        port => 5043
+        type => "apache-access"
+#        path => [ "/var/log/apache/access.log" ]
+        start_position => "beginning"
+        ssl_certificate => "/etc/pki/tls/certs/logstash-forwarder.crt"
+        ssl_key => "/etc/pki/tls/private/logstash-forwarder.key"
+    }
+
+ }
+
+
+    filter {
+      if [type] == "syslog" {
+         grok {
+          match => { "message" => "%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" }
+          add_field => [ "received_at", "%{@timestamp}" ]
+          add_field => [ "received_from", "%{host}" ]
+        }
+        syslog_pri { }
+        date {
+          match => [ "syslog_timestamp", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+        }
+      }
+    
+      if [type] == "apache-access" {
+       grok {
+       match => { "message" => "%{COMBINEDAPACHELOG}" }
+    }
+  }
+}
+
+    
+
+
+
+
+output {
+if [type] == "syslog" {
+ 
+elasticsearch { 
+
+     
+ 
+       hosts => "192.168.1.235:9200"
+       action => "index"
+       index => "sys-%{+YYYY.MM.dd}"    
+
+}
+}
+if [type] == "apache-access" {
+ 
+elasticsearch {
+
+       hosts => "192.168.1.235:9200"
+       action => "index"
+       index => "apache-%{+YYYY.MM.dd}"
+}
+}
+}

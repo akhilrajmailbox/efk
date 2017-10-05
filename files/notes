@@ -1,0 +1,12 @@
+ELK = Elasticsearch + Logstash + Kibana
+
+Elasticsearch = Non relational Database
+
+Logstash = Log collection and transport the logs to Elasticsearch and save those.
+
+Kibana = GUI and searching of logs from elasticsearch.
+
+
+ELK is used for log searching and managing.
+
+It's workflow  : Logstash to Elasticsearch to Kibana.

@@ -1,0 +1,25 @@
+network.bind_host: 0
+readonlyrest:
+    enable: true
+    response_if_req_forbidden: Forbidden by ReadonlyREST ES plugin
+    access_control_rules:
+    - name: "::LOGSTASH::"
+      auth_key: admin:admin
+      type: allow
+      indices: ["apachelog-*","syslog-*","tomcat-*","<no-index>"]
+    - name: "::KIBANA-SRV::"
+      auth_key: admin:admin
+      type: allow
+    - name: "::RO+ DEVELOPER::"
+      auth_key: dev:dev
+      type: allow
+#      kibana_access: ro+
+      indices: ["apachelog-*","<no-index>"]
+    - name: "::RO DEVELOPER::"
+      auth_key: lop:lop
+      type: allow
+#      kibana_access: ro
+      indices: ["tomcat-*","<no-index>"]
+
+
+
