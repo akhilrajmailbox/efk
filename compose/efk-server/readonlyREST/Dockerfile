@@ -1,5 +1,5 @@
 FROM java-img
-MAINTAINER Akhil Raj <akhilrajmailbox@gmail.com>
+MAINTAINER Akhil Raj <akhilmailbox@gmail.com>
 RUN apt-get update
 
 # elastisearch installation
@@ -27,7 +27,8 @@ RUN sh -c 'echo "server.port: 5601 " >> /opt/kibana/config/kibana.yml'
 RUN locale-gen en_US.UTF-8
 RUN locale-gen
 RUN export LC_ALL=en_US.UTF-8
-ADD start.sh /root/start.sh
+#ADD single-kibana-user-start.sh /root/start.sh
+ADD multi-kibana-user-start.sh /root/start.sh
 RUN chmod a+x /root/start.sh
 
 ENTRYPOINT "/root/start.sh"
