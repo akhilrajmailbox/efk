@@ -79,13 +79,13 @@ environment variable ::
 Create a file with the following variable
 
 ```
-TD_CONF			        =		for configure td_agent use 'Y' or 'y'
-TAG_NAME		        =		any name you want to see in web_ui for that log
-LOG_FILE_PATH		    =		log file path for monitoring
-ELASTIC_SERVER_HOST	=		efk server host ip
-ELASTIC_SERVER_PORT	=		efk server port number (elasticsearch_port)
-ELASTIC_USERNAME	  =		elasticsearch_fluentd connecting username
-ELASTIC_PASSWORD	  =		elasticsearch_fluentd connecting user's password
+TD_CONF             =   for configure td_agent use 'Y' or 'y'
+TAG_NAME            =   any name you want to see in web_ui for that log
+LOG_FILE_PATH       =   log file path for monitoring
+ELASTIC_SERVER_HOST =   efk server host ip
+ELASTIC_SERVER_PORT =   efk server port number (elasticsearch_port)
+ELASTIC_USERNAME    =   elasticsearch_fluentd connecting username
+ELASTIC_PASSWORD    =   elasticsearch_fluentd connecting user's password
 
 ```
 
