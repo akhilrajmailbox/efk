@@ -58,8 +58,8 @@ readonlyrest:
 EOF
 
 cat <<EOF>> /opt/kibana/config/kibana.yml
-elasticsearch.username: "admin"
-elasticsearch.password: "$KIBANA_PASSWORD"
+elasticsearch.username: "kibanadmin"
+elasticsearch.password: "$KIBANA_ADMIN_PASSWORD"
 EOF
 
   fi
